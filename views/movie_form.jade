@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='title') Movie Title:
+      input#title.form-control(type='text' placeholder='Movie Title' name='title' required='true' value=(undefined===movie ? '' : movie.title) )
+    div.form-group
+      label(for='release_year') Release Year:
+      input#release_year.form-control(type='number' placeholder='Release Year' name='release_year' value=(undefined===movie ? '' : movie.release_year) )
+    button.btn.btn-primary(type='submit') Submit

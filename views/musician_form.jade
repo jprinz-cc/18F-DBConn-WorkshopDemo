@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type='text' placeholder='First name (Christian) last' name='first_name' required='true' value=(undefined===musician ? '' : musician.first_name) )
+      label(for='last_name') Last Name:
+      input#last_name.form-control(type='text' placeholder='Last name (surname)' name='last_name' required='true' value=(undefined===musician ? '' : musician.last_name))
+    div.form-group
+      label(for='date_of_birth') Date of birth:
+      input#date_of_birth.form-control(type='date' name='date_of_birth' value=(undefined===musician ? '' : musician.date_of_birth) )
+    button.btn.btn-primary(type='submit') Submit

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>RestAPI Test Request</h2>
+    <p>Select the media type to list:</p>
+    <select name="media" id="mediaListValue">
+        <option value="movie">Movies</option>
+        <option value="musician">Musicians</option>
+    </select>
+    <br><br><br>
+
+    <button type="button" onclick="loadMediaList()">Request data</button>
+    <br><br>
+    Response:
+    <p id="mediaList"></p>
+
+
+    <script>
+        function loadMediaList() {
+            var mediaListValue = document.getElementById("mediaListValue").value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    var div = document.getElementById("mediaList");
+                    div.innerHTML = "";
+
+                    arrToUl(div, JSON.parse(this.responseText));
+
+                    function arrToUl(root, arr) {
+                        var ul = document.createElement('ul');
+                        var li, content;
+
+                        root.appendChild(ul); // append the created ul to the root
+
+                        arr.forEach(function(item) {
+
+                            if (Array.isArray(item)) { // if it's an array
+                                arrToUl(li, item); // call arrToUl with the li as the root
+                                return;
+                            }
+
+                            if (item.title) {
+                                content =  item.title + " - Release Year: " + item.release_year;
+                                addLi(content);
+                            } else {
+                                var d = new Date(item.date_of_birth);
+                                content =  item.first_name + " " + item.last_name + " - DOB: " + d.getMonth() + "/" + d.getFullYear();
+                                addLi(content)
+                            }
+
+                            function addLi(liItem) {
+                                li = document.createElement('li'); // create a new list item
+                                li.appendChild(document.createTextNode(liItem)); // append the text to the li
+                                ul.appendChild(li); // append the list item to the ul
+                            }
+
+                        });
+                    }
+                }
+            };
+            xhttp.open("GET", "http://localhost:3000/api/media/" + mediaListValue, true);
+            xhttp.send();
+        }
+
+    </script>
+
+</body>
+
+</html>

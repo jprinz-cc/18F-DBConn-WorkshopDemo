@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='name') Name:
+      input#name.form-control(type='text', placeholder='Name of album' name='name' required='true' value=(undefined===album ? '' : album.name) )
+    div.form-group
+      label(for='musician') Musician:
+      select#musician.form-control(type='select', placeholder='Select musician' name='musician' required='true' )
+        for musician in musicians
+          if album
+            option(value=musician._id selected=(musician._id.toString()==album.musician ? 'selected' : false) ) #{musician.name}
+          else
+            option(value=musician._id) #{musician.name}
+    div.form-group
+      label Genre:
+      div
+        for genre in genres
+          div(style='display: inline; padding-right:10px;')
+            input.checkbox-input(type='checkbox', name='genre', id=genre._id, value=genre._id, checked=genre.checked )
+            label(for=genre._id) #{genre.name}
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

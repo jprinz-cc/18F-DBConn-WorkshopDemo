@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+
+  ul
+  each musician in musician_list
+    li
+      a(href=musician.url) #{musician.name}
+  else
+    li There are no musicians.
